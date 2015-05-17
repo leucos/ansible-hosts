@@ -1,0 +1,4 @@
+- name: Creates /etc/hosts file
+  template: src="../templates/hosts.j2" dest=/etc/hosts
+  tags: hosts
+

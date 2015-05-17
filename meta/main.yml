@@ -1,0 +1,15 @@
+---
+
+galaxy_info:
+  author: Michel Blanc
+  description: Populates /etc/hosts with all hosts in inventory
+  company: devops.works
+  license: MIT
+  min_ansible_version: 1.2
+  # Below are all categories currently available. Just as with
+  # the platforms above, uncomment those that apply to your role.
+  #
+  categories:
+    - system
+
+dependencies: []
