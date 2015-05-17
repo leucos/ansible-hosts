@@ -1,5 +1,5 @@
-ansible-global-hosts
-====================
+ansible-hosts
+=============
 
 Populates /etc/hosts with hosts in inventory
 
