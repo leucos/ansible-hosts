@@ -5,14 +5,12 @@
 ::1       localhost.localdomain localhost
 
 {% for host in groups['all'] %}
+{%   if hostvars[host]['ansible_interfaces'] is defined %}
+{%     for iface in hostvars[host]['ansible_interfaces'] %}
+{%       if iface != 'lo' and hostvars[host]['ansible_'+iface]['active'] %}
+{{hostvars[host]['ansible_'+iface]['ipv4']['address']}} {{ hostvars[host]['inventory_hostname']+'-'+iface }} {% if iface == 'eth0' or iface == 'em1' %}{{ hostvars[host]['inventory_hostname'] }}{% endif %}
 
-{% if hostvars[host]['ansible_interfaces'] is defined %}
-{% for iface in hostvars[host]['ansible_interfaces'] %}
-{% if iface != 'lo' %}
-{{hostvars[host]['ansible_'+iface]['ipv4']['address']}} {{ hostvars[host]['inventory_hostname']+'-'+iface }} {% if iface == 'eth0' %}{{ hostvars[host]['inventory_hostname'] }}{% endif %}
-
-{% endif %}
-{% endfor %}
-{% endif %}
-
+{%       endif %}
+{%     endfor %}
+{%   endif %}
 {% endfor %}
