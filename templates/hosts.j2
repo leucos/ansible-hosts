@@ -7,10 +7,13 @@
 {% for host in groups['all'] %}
 {%   if hostvars[host]['ansible_interfaces'] is defined %}
 {%     for iface in hostvars[host]['ansible_interfaces'] %}
-{%       if iface != 'lo' and hostvars[host]['ansible_'+iface]['active'] %}
-{{hostvars[host]['ansible_'+iface]['ipv4']['address']}} {{ hostvars[host]['inventory_hostname']+'-'+iface }} {% if iface == 'eth0' or iface == 'em1' %}{{ hostvars[host]['inventory_hostname'] }}{% endif %}
+{%       if iface != 'lo' and hostvars[host]['ansible_'+iface].active and 'ipv4' in hostvars[host]['ansible_'+iface] %}
+{{hostvars[host]['ansible_'+iface].ipv4.address}} {{ hostvars[host]['inventory_hostname']+'-'+iface }} {% if iface == 'eth0' or iface == 'em1' %}{{ hostvars[host]['inventory_hostname'] }}{% endif %}
 
 {%       endif %}
 {%     endfor %}
 {%   endif %}
+{% endfor %}
+{% for host in hosts_more_entries %}
+{{ host.ip }} {{ host.name }}
 {% endfor %}
