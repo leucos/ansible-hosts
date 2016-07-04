@@ -5,14 +5,15 @@
 #                                  #
 ####################################
 
-127.0.0.1 {{ [ "localhost.localdomain", "localhost", inventory_hostname, ansible_hostname,ansible_fqdn ] | unique | join(' ') }}
+127.0.0.1 {{ [ "localhost.localdomain", "localhost", inventory_hostname, ansible_hostname,ansible_fqdn ] | unique | join(' ') }}{% if host_tags is defined %}{% for tag in host_tags %} {{ tag  }}{% endfor %}{% endif %}
+
 ::1       localhost.localdomain localhost
 
 {% for host in groups['all'] %}
-{%   if hostvars[host]['ansible_interfaces'] is defined and host != inventory_hostname %}
+{%   if hostvars[host]['ansible_interfaces'] is defined %}
 {%     for iface in hostvars[host]['ansible_interfaces'] %}
 {%       if iface != 'lo' and 'active' in hostvars[host]['ansible_'+iface] and 'ipv4' in hostvars[host]['ansible_'+iface] %}
-{{hostvars[host]['ansible_'+iface].ipv4.address}} {{ hostvars[host]['inventory_hostname']+'-'+iface }} {% if hostvars[host]['host_tags'] is defined %}{% for tag in hostvars[host]['host_tags'] %} {{ tag }}-{{ iface }}{% endfor %}{% endif %}{% if iface == hostvars[host].ansible_default_ipv4.interface %} {{ hostvars[host]['inventory_hostname'] }}{% if hostvars[host]['host_tags'] is defined %}{% for tag in hostvars[host]['host_tags'] %} {{ tag }}-{{ iface }}{% endfor %}{% endif %}{% endif %}
+{{hostvars[host]['ansible_'+iface].ipv4.address}} {{ hostvars[host]['inventory_hostname']+'-'+iface }}{% if hostvars[host]['host_tags'] is defined %}{% for tag in hostvars[host]['host_tags'] %} {{ tag }}-{{ iface }}{% endfor %}{% endif %}{% if iface == hostvars[host].ansible_default_ipv4.interface %} {{ hostvars[host]['inventory_hostname'] }}{% if hostvars[host]['host_tags'] is defined %}{% for tag in hostvars[host]['host_tags'] %} {{ tag }}{% endfor %}{% endif %}{% endif %}
 
 {%       endif %}
 {%     endfor %}
