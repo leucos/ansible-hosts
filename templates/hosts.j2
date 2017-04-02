@@ -5,9 +5,10 @@
 #                                  #
 ####################################
 
-127.0.0.1 {{ [ "localhost.localdomain", "localhost", inventory_hostname, ansible_hostname,ansible_fqdn ] | unique | join(' ') }}{% if host_tags is defined %}{% for tag in host_tags %} {{ tag  }}{% endfor %}{% endif %}
-
+127.0.0.1  localhost.localdomain localhost
 ::1       localhost.localdomain localhost
+
+127.0.0.1 {{ [ inventory_hostname, ansible_hostname,ansible_fqdn ] | unique | join(' ') }}{% if host_tags is defined %}{% for tag in host_tags %} {{ tag  }}{% endfor %}{% endif %}
 
 {% for host in groups['all'] %}
 {%   if hostvars[host]['ansible_interfaces'] is defined %}
