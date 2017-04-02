@@ -1,1 +1,3 @@
-- include: hosts.yml tags=hosts
+- include: hosts.yml
+  tags:
+    - hosts
