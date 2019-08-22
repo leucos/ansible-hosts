@@ -1,3 +1,5 @@
+** NOT MAINTAINED - MOVED TO https://github.com/devops-works/ansible-hosts **
+
 ansible-hosts
 =============
 
